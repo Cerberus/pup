@@ -15,8 +15,11 @@ module.exports = function(wallaby) {
 		tests: ['__tests__/*.ts'],
 		env: {
 			type: 'node',
+			kind: 'chrome',
 			runner: 'node',
+			params: {
+				runner: '--headless --disable-gpu',
+			},
 		},
-		testFramework: 'jest',
 	}
 }

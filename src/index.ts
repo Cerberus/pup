@@ -1,13 +1,18 @@
-import { getBrowser } from './browser'
+import * as puppeteer from 'puppeteer'
+import { step, action } from 'prescript'
 
-const browserParams = {
-	headless: true,
-}
-;(async () => {
-	const browser = await getBrowser(browserParams)
-	const page = await browser.newPage()
-	await page.setViewport({ width: 1280, height: 1024 })
-	await page.goto('http://example.com')
-	await page.screenshot({ path: './example.png' })
-	await page.close()
-})()
+step('Open Browser', () => {
+	action(async state => {
+		state.browser = await puppeteer.launch()
+	})
+})
+
+step('goto example.com', () => {
+	action(async state => {
+		const browser = state.browser as puppeteer.Browser
+		const page = await browser.newPage()
+		page.goto('http://exammple.com')
+		page.screenshot({ path: './assets/example.png' })
+		page.close()
+	})
+})

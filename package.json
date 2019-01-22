@@ -24,6 +24,7 @@
   },
   "scripts": {
     "test": "jest --silent",
+    "start": "prescript src/index.ts",
     "tslint": "tslint -p .",
     "release": "standard-version"
   },

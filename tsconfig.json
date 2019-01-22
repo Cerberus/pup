@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "lib": ["es2018", "dom"],
+    "module": "commonjs",
+    "target": "es2017",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["src/*", "node_modules/*"]
+    },
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src/**/*",
+    "__tests__/**/*",
+    "lib.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

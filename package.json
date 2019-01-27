@@ -9,6 +9,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.10",
     "@types/puppeteer": "^1.11.1",
+    "concurrently": "^4.1.0",
     "husky": "^1.3.1",
     "jest": "^23.6.0",
     "lint-staged": "^8.1.0",
@@ -23,8 +24,11 @@
     "typescript": "^3.2.2"
   },
   "scripts": {
+    "start": "prescript dist/src/index.js",
+    "dev": "npm start -- -d",
     "test": "jest --silent",
-    "start": "prescript src/index.ts",
+    "test:report": "ALLURE_RESULTS_DIR=allure-results npm start",
+    "build:watch": "tsc -w",
     "tslint": "tslint -p .",
     "release": "standard-version"
   },

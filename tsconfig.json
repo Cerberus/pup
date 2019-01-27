@@ -1,11 +1,13 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "lib": ["es2018", "dom"],
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es2017",
     "sourceMap": true,
     "moduleResolution": "node",
     "noImplicitAny": true,
+    "outDir": "dist",
     "baseUrl": ".",
     "paths": {
       "*": ["src/*", "node_modules/*"]

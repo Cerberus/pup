@@ -2,11 +2,12 @@
 module.exports = {
 	excludes: [
 		'./__tests__/**/*',
+		'./dist/**/*',
 		'./lib.d.ts',
 		'./wallaby.js',
 		'./jest.config.js',
 	],
-	useRelativePaths: false,
+	useRelativePaths: true,
 	tab: '\t',
 	importStatementFormatter({ importStatement }) {
 		return importStatement.replace(/;$/, '').replace(/src\//, '')

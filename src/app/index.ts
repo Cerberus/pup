@@ -1,9 +1,12 @@
 import * as puppeteer from 'puppeteer'
-import { step, action, defer, pending } from 'prescript'
+
+import { action, defer } from 'prescript'
+
+import { proxify } from '../proxy'
 
 const app = {
 	init(options?: puppeteer.ChromeArgOptions) {
-		action('initial', async state => {
+		action('Create page', async state => {
 			const browser = await puppeteer.launch(options)
 			state.browser = browser
 			const page = await browser.newPage()
@@ -12,14 +15,14 @@ const app = {
 		defer('Close browser', async ({ browser }) => {
 			await browser.close()
 		})
-		return this
+		return app
 	},
-	gotoExample() {
-		action('gotoExample', async ({ page }) => {
-			await page.goto('http://example.com')
+	openUrl(url: string) {
+		action(async ({ page }) => {
+			await page.goto(url)
 		})
-		return this
+		return app
 	},
 }
 
-export default app
+export default proxify(app)

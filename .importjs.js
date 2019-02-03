@@ -3,6 +3,7 @@ module.exports = {
 	excludes: [
 		'./__tests__/**/*',
 		'./dist/**/*',
+		'./allure-results/**/*',
 		'./lib.d.ts',
 		'./wallaby.js',
 		'./jest.config.js',

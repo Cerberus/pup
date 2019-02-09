@@ -1,0 +1,15 @@
+{
+	"action": {
+		"scope": "typescript",
+		"prefix": "ac",
+		"body": [
+			"$1() {",
+			"\taction(async ({ page }) => {",
+			"\t\tawait page$0",
+			"\t})",
+			"\treturn this",
+			"}",
+		],
+		"description": "action field with return self"
+	}
+}

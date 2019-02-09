@@ -17,9 +17,25 @@ class App {
 		})
 		return this
 	}
-	openUrl(url: string) {
+	goto(url: string) {
 		action(async ({ page }) => {
 			await page.goto(url)
+		})
+		return this
+	}
+	screenshot(options?: puppeteer.ScreenshotOptions) {
+		action(async ({ page }) => {
+			const fileName = new Date(Date.now()).toString().slice(16, 24)
+			await page.screenshot({
+				path: `./screenshots/${fileName}.png`,
+				...options,
+			})
+		})
+		return this
+	}
+	type(selector: string, text: string, options?: { delay: number }) {
+		action(async ({ page }) => {
+			await page.type(selector, text, options)
 		})
 		return this
 	}

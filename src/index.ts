@@ -1,8 +1,7 @@
-import assert from 'assert'
-
 import { app } from './app'
 
 app
-	.init({ headless: false })
+	.init()
 	.goto('https://www.google.com')
-	.type('input[name=q]', 'google')
+	.search('input[name=q]', 'google')
+	.screenshot()

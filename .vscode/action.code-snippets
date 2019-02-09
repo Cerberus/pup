@@ -4,7 +4,7 @@
 		"prefix": "ac",
 		"body": [
 			"$1() {",
-			"\taction(async ({ page }) => {",
+			"\taction(async () => {",
 			"\t\tawait page$0",
 			"\t})",
 			"\treturn this",

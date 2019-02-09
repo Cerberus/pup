@@ -1,30 +1,33 @@
 import * as puppeteer from 'puppeteer'
 
-import { action, defer } from 'prescript'
+import { defer } from 'prescript'
 
-import { proxify } from '../proxy'
+import { proxify, action, browser, page } from '../proxy'
 
 class App {
-	init(options?: puppeteer.ChromeArgOptions) {
-		action('Create page', async state => {
+	createPage(options: puppeteer.ChromeArgOptions) {
+		action(async state => {
 			const browser = await puppeteer.launch(options)
 			state.browser = browser
 			const page = await browser.newPage()
 			state.page = page
 		})
-		defer('Close browser', async ({ browser }) => {
+	}
+	init(options?: puppeteer.ChromeArgOptions) {
+		app.createPage(options)
+		defer('Close browser', async () => {
 			await browser.close()
 		})
 		return this
 	}
 	goto(url: string) {
-		action(async ({ page }) => {
+		action(async () => {
 			await page.goto(url)
 		})
 		return this
 	}
 	screenshot(options?: puppeteer.ScreenshotOptions) {
-		action(async ({ page }) => {
+		action(async () => {
 			const fileName = new Date(Date.now()).toString().slice(16, 24)
 			await page.screenshot({
 				path: `./screenshots/${fileName}.png`,
@@ -34,9 +37,19 @@ class App {
 		return this
 	}
 	type(selector: string, text: string, options?: { delay: number }) {
-		action(async ({ page }) => {
+		action(async () => {
 			await page.type(selector, text, options)
 		})
+		return this
+	}
+	enter() {
+		action(async () => {
+			await page.keyboard.press('Enter')
+		})
+		return this
+	}
+	search(selector: string, text: string, options?: { delay: number }) {
+		app.type(selector, text, options).enter()
 		return this
 	}
 }

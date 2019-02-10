@@ -7,16 +7,17 @@
     "puppeteer": "^1.11.0"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.10",
+    "@types/chalk": "^2.2.0",
+    "@types/glob": "^7.1.1",
     "@types/puppeteer": "^1.11.1",
+    "chalk": "^2.4.2",
     "concurrently": "^4.1.0",
+    "glob": "^7.1.3",
     "husky": "^1.3.1",
-    "jest": "^23.6.0",
     "lint-staged": "^8.1.0",
     "prescript": "^0.5555.55",
     "prettier": "^1.15.3",
     "standard-version": "^4.4.0",
-    "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.1",
@@ -24,11 +25,11 @@
     "typescript": "^3.2.2"
   },
   "scripts": {
-    "start": "prescript dist/src/index.js",
+    "start": "prescript",
     "dev": "npm start -- -d",
-    "test": "jest --silent",
-    "test:report": "ALLURE_RESULTS_DIR=allure-results npm start",
-    "build:watch": "tsc -w",
+    "test:all": "node ./dist/testAll.js",
+    "test:report": "ALLURE_RESULTS_DIR=allure-results",
+    "build:watch": "rm -rf dist; tsc -w",
     "tslint": "tslint -p .",
     "release": "standard-version"
   },

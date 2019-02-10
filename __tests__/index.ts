@@ -1,3 +1,0 @@
-describe('genral', () => {
-	it('simple', () => {})
-})

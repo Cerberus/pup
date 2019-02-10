@@ -16,7 +16,6 @@
   },
   "include": [
     "src/**/*",
-    "__tests__/**/*",
     "lib.d.ts"
   ],
   "exclude": [

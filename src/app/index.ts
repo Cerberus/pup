@@ -2,7 +2,7 @@ import * as puppeteer from 'puppeteer'
 
 import { defer } from 'prescript'
 
-import { proxify, action, browser, page } from '../proxy'
+import { proxify, action, page } from '../proxy'
 
 class App {
 	createPage(options: puppeteer.ChromeArgOptions) {
@@ -15,7 +15,7 @@ class App {
 	}
 	init(options?: puppeteer.ChromeArgOptions) {
 		app.createPage(options)
-		defer('Close browser', async () => {
+		defer('Close browser', async ({ browser }) => {
 			await browser.close()
 		})
 		return this

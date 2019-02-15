@@ -11,21 +11,20 @@ const toSentenceCase = (camel: string) => {
 	return lowerCase[0].toUpperCase() + lowerCase.slice(1)
 }
 
+const getStepName = (key: string, options: unknown[]) =>
+	[toSentenceCase(key), ...options.filter(opt => typeof opt === 'string')].join(
+		' ',
+	)
+
 const handler = {
-	get(obj: any, key: any) {
+	get(obj: any, key: string) {
 		return (...options: unknown[]) => {
-			let stepName = toSentenceCase(key)
-			const optNames = options.filter(opt => typeof opt === 'string')
-			if (optNames.length > 0) {
-				stepName += ` ${optNames.join(' ')}`
-			}
+			const stepName = getStepName(key, options)
 			step(stepName, () => obj[key](...options))
 			return new Proxy(obj, handler)
 		}
 	},
 }
-
-type Proxify<T> = { [P in keyof T]: T[P] }
 
 export function proxify<T>(o: T): Proxify<T> {
 	return new Proxy(o, handler)

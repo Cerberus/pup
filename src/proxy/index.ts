@@ -1,20 +1,7 @@
 import { step, action as preAction } from 'prescript'
 import { ActionFunction } from 'prescript/lib/types'
 import * as puppeteer from 'puppeteer'
-
-const toSentenceCase = (camel: string) => {
-	const spaceCase = camel.replace(/([A-Z])/g, ' $1')
-	const lowerCase = spaceCase
-		.split(' ')
-		.map(word => word.toLowerCase())
-		.join(' ')
-	return lowerCase[0].toUpperCase() + lowerCase.slice(1)
-}
-
-const getStepName = (key: string, options: unknown[]) =>
-	[toSentenceCase(key), ...options.filter(opt => typeof opt === 'string')].join(
-		' ',
-	)
+import { getStepName } from './naming'
 
 const handler = {
 	get(obj: any, key: string) {

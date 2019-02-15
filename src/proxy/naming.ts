@@ -7,7 +7,7 @@ const toSentenceCase = (camel: string) => {
 	return lowerCase[0].toUpperCase() + lowerCase.slice(1)
 }
 
+const onlyString = (opt: unknown) => typeof opt === 'string'
+
 export const getStepName = (key: string, options: unknown[]) =>
-	[toSentenceCase(key), ...options.filter(opt => typeof opt === 'string')].join(
-		' ',
-	)
+	[toSentenceCase(key), ...options.filter(onlyString)].join(' ')

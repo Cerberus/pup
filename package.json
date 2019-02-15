@@ -29,7 +29,7 @@
     "start": "prescript",
     "dev": "npm start -- -d",
     "test:all": "node ./dist/testAll.js",
-    "test:report": "ALLURE_RESULTS_DIR=allure-results",
+    "test:report": "ALLURE_RESULTS_DIR=allure-results npm run test:all",
     "build:watch": "rm -rf dist; tsc -w",
     "tslint": "tslint -p .",
     "release": "standard-version"

@@ -18,7 +18,8 @@
     "lint-staged": "^8.1.0",
     "prescript": "^0.5555.55",
     "prettier": "^1.15.3",
-    "standard-version": "^4.4.0",
+    "source-map-support": "^0.5.10",
+    "standard-version": "^5.0.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.1",
@@ -30,7 +31,7 @@
     "dev": "npm start -- -d",
     "test:all": "node ./dist/testAll.js",
     "test:report": "ALLURE_RESULTS_DIR=allure-results npm run test:all",
-    "build:watch": "rm -rf dist; tsc -w",
+    "build:watch": "rm -rf dist; tsc -w -sourcemap",
     "tslint": "tslint -p .",
     "release": "standard-version"
   },

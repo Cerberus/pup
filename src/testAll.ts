@@ -7,24 +7,21 @@ const {
 	bgRed: { bold: red },
 } = chalk.default
 
-const files = glob.sync('dist/__tests__/*.js')
+const files = glob.sync('dist/__tests__/**/*.js')
 const limit = require('p-limit')(3)
+const PRESCRIPT = './node_modules/.bin/prescript'
 
 Promise.all(
 	files.map(file =>
 		limit(
 			() =>
 				new Promise(resolve => {
-					childProcess.execFile(
-						'./node_modules/.bin/prescript',
-						[file],
-						(e, stdout) => {
-							e
-								? console.log(red(' NG '), file, '\n', stdout)
-								: console.log(green(' OK '), file)
-							resolve(e)
-						},
-					)
+					childProcess.execFile(PRESCRIPT, [file], (e, stdout) => {
+						e
+							? console.log(red(' NG '), file, '\n', stdout)
+							: console.log(green(' OK '), file)
+						resolve(e)
+					})
 				}),
 		),
 	),

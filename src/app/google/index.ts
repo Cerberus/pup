@@ -1,4 +1,4 @@
-import { proxify, action, page } from '../proxy'
+import { proxify, action, page } from 'proxy'
 import { equal } from 'assert'
 
 export const google = proxify({

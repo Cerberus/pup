@@ -8,11 +8,13 @@
     "moduleResolution": "node",
     "noImplicitAny": true,
     "outDir": "dist",
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "*": ["src/*", "node_modules/*"]
+      "app/*": ["app/*"],
+      "proxy": ["proxy"],
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "plugins": [{ "transform": "typescript-transform-paths" }]
   },
   "include": [
     "src/**/*",

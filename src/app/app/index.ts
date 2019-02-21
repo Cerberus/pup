@@ -2,7 +2,7 @@ import * as puppeteer from 'puppeteer'
 
 import { defer } from 'prescript'
 
-import { proxify, action, page } from '../proxy'
+import { proxify, action, page } from 'proxy'
 
 require('source-map-support').install()
 

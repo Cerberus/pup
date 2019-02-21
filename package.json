@@ -24,14 +24,16 @@
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.17.0",
-    "typescript": "^3.2.2"
+    "ttypescript": "^1.5.6",
+    "typescript": "^3.2.2",
+    "typescript-transform-paths": "^1.0.0"
   },
   "scripts": {
-    "start": "prescript",
+    "start": "NODE_PATH=src prescript",
     "dev": "npm start -- -d",
     "test:all": "node ./dist/testAll.js",
     "test:report": "ALLURE_RESULTS_DIR=allure-results npm run test:all",
-    "build:watch": "rm -rf dist; tsc -w -sourcemap",
+    "build:watch": "rm -rf dist; ttsc -w -sourcemap",
     "tslint": "tslint -p .",
     "release": "standard-version"
   },

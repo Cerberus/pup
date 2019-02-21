@@ -1,5 +1,5 @@
-import { app } from '../app'
-import { google } from '../google'
+import { app } from 'app/app'
+import { google } from 'app/google'
 
 app
 	.init()

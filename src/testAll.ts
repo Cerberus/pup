@@ -20,7 +20,7 @@ Promise.all(
 						e
 							? console.log(red(' NG '), file, '\n', stdout)
 							: console.log(green(' OK '), file)
-						resolve(e)
+						resolve(e || undefined)
 					})
 				}),
 		),

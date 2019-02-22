@@ -6,7 +6,7 @@
     "target": "es2017",
     "sourceMap": true,
     "moduleResolution": "node",
-    "noImplicitAny": true,
+    "strict": true,
     "outDir": "dist",
     "baseUrl": "src",
     "paths": {

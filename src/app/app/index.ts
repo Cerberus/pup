@@ -7,7 +7,7 @@ import { proxify, action, page } from 'proxy'
 require('source-map-support').install()
 
 export const app = proxify({
-	createPage: (options: puppeteer.ChromeArgOptions) => {
+	createPage: (options?: puppeteer.LaunchOptions) => {
 		action(async state => {
 			const browser = await puppeteer.launch(options)
 			state.browser = browser
@@ -15,7 +15,7 @@ export const app = proxify({
 			state.page = page
 		})
 	},
-	init: (options?: puppeteer.ChromeArgOptions) => {
+	init: (options?: puppeteer.LaunchOptions) => {
 		app.createPage(options)
 		defer('Close browser', async ({ browser }) => {
 			await browser.close()

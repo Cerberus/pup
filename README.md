@@ -36,6 +36,11 @@ Step 4. Is first title Google
 * Test plan generated successfully!
 ```
 
+### Debugging dom on chrome
+```
+document.querySelector('«query»')
+```
+
 ### setup allure on mac osx
 ```
 brew install allure

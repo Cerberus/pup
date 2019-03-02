@@ -4,32 +4,74 @@ import { action, page } from 'proxy'
 import { equal } from 'assert'
 import { step } from 'prescript'
 
-const getValue = async (element: puppeteer.ElementHandle, property: string) =>
-	element.getProperty(property).then(obj => obj.jsonValue())
+type Selector = string | number
 
-export const expect = (selector: string) => ({
-	expectedStr: '',
-	receivedStr: '',
-	setExpectedStr(expectedStr: string) {
-		this.expectedStr = expectedStr
-	},
-	setReceiveStr(property: string, comparison: Function) {
-		step(`Expect '${selector}' ${property} equals ${this.expectedStr}`, () => {
-			action(async () => {
-				const element = await page.waitForSelector(selector, {
-					timeout: 5000,
-				})
-				this.receivedStr = await getValue(element, property)
-				comparison(this.receivedStr, this.expectedStr)
-			})
+const getName = (...args: Selector[]) => args.join(' → ')
+
+function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
+	return value !== null && value !== undefined
+}
+
+const getSelectors = (...args: Selector[]) => {
+	return args
+		.map((arg, index) => {
+			const nextArg = args[index + 1]
+			return typeof arg === 'string'
+				? {
+						selector: arg,
+						index: typeof nextArg === 'number' ? nextArg : null,
+				  }
+				: undefined
 		})
-	},
-	equal(expectedStr: string) {
-		this.setExpectedStr(expectedStr)
-		this.setReceiveStr('innerHTML', equal)
-	},
-	valueEqual(expectedStr: string) {
-		this.setExpectedStr(expectedStr)
-		this.setReceiveStr('value', equal)
-	},
-})
+		.filter(notEmpty)
+}
+
+export const expect = (...args: Selector[]) => {
+	return {
+		expectedStr: '',
+		receivedStr: '',
+		setExpectedStr(expectedStr: string) {
+			this.expectedStr = expectedStr
+		},
+		setReceiveStr(property: string, comparison: Function) {
+			const queries = getSelectors(...args)
+			step(
+				`Expect '${getName(...args)}' ${property} equals ${this.expectedStr}`,
+				() => {
+					action(async () => {
+						await page.waitForSelector(queries[0].selector, {
+							timeout: 5000,
+						})
+						const pagePromise = <Promise<puppeteer.ElementHandle>>(
+							(<any>Promise.resolve(page))
+						)
+						const element = await queries.reduce(
+							async (elementPromise, { index, selector }) => {
+								const element = await elementPromise
+								if (index) {
+									return (<puppeteer.ElementHandle[]>(
+										(<any>await element.$$(selector))
+									))[index]
+								}
+								return (element.$(selector) as any) as puppeteer.ElementHandle
+							},
+							pagePromise,
+						)
+						this.receivedStr = await element
+							.getProperty(property)
+							.then(obj => obj.jsonValue())
+						comparison(this.receivedStr, this.expectedStr)
+					})
+				},
+			)
+		},
+		equal(expectedStr: string) {
+			this.setExpectedStr(expectedStr)
+			this.setReceiveStr('innerHTML', equal)
+		},
+		valueEqual(expectedStr: string) {
+			this.setExpectedStr(expectedStr)
+			this.setReceiveStr('value', equal)
+		},
+	}
+}

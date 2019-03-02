@@ -14,6 +14,27 @@ Open a new terminal tab and run the test file. (e.g. `src/__tests__/example/inde
 ```
 npm run dev dist/__tests__/example/index.js
 ```
+an example source code:
+```ts
+app
+  .init()
+  .goto('https://www.google.com')
+  .search('input[name=q]', 'google')
+google.isFirstTitle('Google')
+```
+after run the command above..
+```
+## Loading test and generating test plan...
+Step 1. Init
+Step 1.1. Create page
+Deferred Step 1.2. Close browser
+Step 2. Goto https://www.google.com
+Step 3. Search input[name=q] google
+Step 3.1. Type input[name=q] google
+Step 3.2. Enter
+Step 4. Is first title Google
+* Test plan generated successfully!
+```
 
 ### setup allure on mac osx
 ```

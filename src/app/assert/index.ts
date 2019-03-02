@@ -26,52 +26,47 @@ const getSelectors = (...args: Selector[]) => {
 		.filter(notEmpty)
 }
 
-export const expect = (...args: Selector[]) => {
-	return {
-		expectedStr: '',
-		receivedStr: '',
-		setExpectedStr(expectedStr: string) {
-			this.expectedStr = expectedStr
-		},
-		setReceiveStr(property: string, comparison: Function) {
-			const queries = getSelectors(...args)
-			step(
-				`Expect '${getName(...args)}' ${property} equals ${this.expectedStr}`,
-				() => {
-					action(async () => {
-						await page.waitForSelector(queries[0].selector, {
-							timeout: 5000,
-						})
-						const pagePromise = <Promise<puppeteer.ElementHandle>>(
-							(<any>Promise.resolve(page))
-						)
-						const element = await queries.reduce(
-							async (elementPromise, { index, selector }) => {
-								const element = await elementPromise
-								if (index) {
-									return (<puppeteer.ElementHandle[]>(
-										(<any>await element.$$(selector))
-									))[index]
-								}
-								return (element.$(selector) as any) as puppeteer.ElementHandle
-							},
-							pagePromise,
-						)
-						this.receivedStr = await element
-							.getProperty(property)
-							.then(obj => obj.jsonValue())
-						comparison(this.receivedStr, this.expectedStr)
+const castToElement = (element: any) => <puppeteer.ElementHandle>(<any>element)
+
+export const expect = (...args: Selector[]) => ({
+	expectedStr: '',
+	setExpectedStr(expectedStr: string) {
+		this.expectedStr = expectedStr
+	},
+	setReceiveStr(property: string, comparison: Function) {
+		const queries = getSelectors(...args)
+		step(
+			`Expect '${getName(...args)}' ${property} equals ${this.expectedStr}`,
+			() => {
+				action(async () => {
+					await page.waitForSelector(queries[0].selector, {
+						timeout: 5000,
 					})
-				},
-			)
-		},
-		equal(expectedStr: string) {
-			this.setExpectedStr(expectedStr)
-			this.setReceiveStr('innerHTML', equal)
-		},
-		valueEqual(expectedStr: string) {
-			this.setExpectedStr(expectedStr)
-			this.setReceiveStr('value', equal)
-		},
-	}
-}
+					const pagePromise = Promise.resolve(castToElement(page))
+					const element = await queries.reduce(
+						async (elementPromise, { index, selector }) => {
+							const element = await elementPromise
+							if (index) {
+								return (await element.$$(selector))[index]
+							}
+							return castToElement(element.$(selector))
+						},
+						pagePromise,
+					)
+					const receivedStr = await element
+						.getProperty(property)
+						.then(obj => obj.jsonValue())
+					comparison(receivedStr, this.expectedStr)
+				})
+			},
+		)
+	},
+	equal(expectedStr: string) {
+		this.setExpectedStr(expectedStr)
+		this.setReceiveStr('innerHTML', equal)
+	},
+	valueEqual(expectedStr: string) {
+		this.setExpectedStr(expectedStr)
+		this.setReceiveStr('value', equal)
+	},
+})

@@ -20,7 +20,6 @@ app
   .init()
   .goto('https://www.google.com')
   .search('input[name=q]', 'google')
-google.isFirstTitle('Google')
 ```
 after run the command above..
 ```
@@ -32,7 +31,6 @@ Step 2. Goto https://www.google.com
 Step 3. Search input[name=q] google
 Step 3.1. Type input[name=q] google
 Step 3.2. Enter
-Step 4. Is first title Google
 * Test plan generated successfully!
 ```
 

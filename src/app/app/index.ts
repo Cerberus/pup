@@ -4,8 +4,6 @@ import { defer } from 'prescript'
 
 import { proxify, action, page } from 'proxy'
 
-require('source-map-support').install()
-
 export const app = proxify({
 	createPage: (options?: puppeteer.LaunchOptions) => {
 		action(async state => {

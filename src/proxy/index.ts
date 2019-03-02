@@ -3,6 +3,8 @@ import { ActionFunction } from 'prescript/lib/types'
 import * as puppeteer from 'puppeteer'
 import { getStepName } from './naming'
 
+require('source-map-support').install()
+
 const handler = {
 	get(obj: any, key: string) {
 		return (...options: unknown[]) => {

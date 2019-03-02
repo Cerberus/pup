@@ -45,3 +45,7 @@ brew install allure
 ```
 allure serve allure-results
 ```
+
+### References
+- [puppeteer](https://pptr.dev)
+- [prescript](https://prescript.netlify.com)

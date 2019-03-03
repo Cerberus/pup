@@ -24,6 +24,11 @@ export const app = proxify({
 			await page.goto(url)
 		})
 	},
+	click: (selector: string) => {
+		action(async () => {
+			await page.click(selector)
+		})
+	},
 	screenshot: (options?: puppeteer.ScreenshotOptions) => {
 		action(async () => {
 			const fileName = new Date(Date.now()).toString().slice(16, 24)

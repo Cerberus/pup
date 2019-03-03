@@ -5,14 +5,17 @@ import { equal } from 'assert'
 import { step } from 'prescript'
 
 type Selector = string | number
+type Query = { selector: string; index: number | null }
 
-const getName = (...args: Selector[]) => args.join(' → ')
+const getName = (queries: Query[]) =>
+	queries
+		.map(({ selector, index }) => `${selector}${index ? `:${index}` : ''}`)
+		.join(' → ')
 
-function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
-	return value !== null && value !== undefined
-}
+const notEmpty = <T>(value: T | null | undefined): value is T =>
+	value !== null && value !== undefined
 
-const getSelectors = (...args: Selector[]) => {
+const getSelectors = (...args: Selector[]): Query[] => {
 	return args
 		.map((arg, index) => {
 			const nextArg = args[index + 1]
@@ -36,7 +39,7 @@ export const expect = (...args: Selector[]) => ({
 	setReceiveStr(property: string, comparison: Function) {
 		const queries = getSelectors(...args)
 		step(
-			`Expect '${getName(...args)}' ${property} equals ${this.expectedStr}`,
+			`Expect '${getName(queries)}' ${property} equals ${this.expectedStr}`,
 			() => {
 				action(async () => {
 					await page.waitForSelector(queries[0].selector, {
@@ -46,10 +49,9 @@ export const expect = (...args: Selector[]) => ({
 					const element = await queries.reduce(
 						async (elementPromise, { index, selector }) => {
 							const element = await elementPromise
-							if (index) {
-								return (await element.$$(selector))[index]
-							}
-							return castToElement(element.$(selector))
+							return index
+								? (await element.$$(selector))[index]
+								: castToElement(element.$(selector))
 						},
 						pagePromise,
 					)

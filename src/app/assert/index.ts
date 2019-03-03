@@ -15,7 +15,7 @@ const getName = (queries: Query[]) =>
 const notEmpty = <T>(value: T | null | undefined): value is T =>
 	value !== null && value !== undefined
 
-const getSelectors = (...args: Selector[]): Query[] => {
+const getQueries = (...args: Selector[]): Query[] => {
 	return args
 		.map((arg, index) => {
 			const nextArg = args[index + 1]
@@ -31,16 +31,32 @@ const getSelectors = (...args: Selector[]): Query[] => {
 
 const castToElement = (element: any) => <puppeteer.ElementHandle>(<any>element)
 
+const genDebuggingQuery = (queries: Query[]) => {
+	process.env.DEBUG &&
+		console.log(
+			`document${queries.reduce(
+				(acc, { index, selector }) =>
+					acc.concat(
+						`.querySelector${
+							index ? `All('${selector}')[${index}]` : `('${selector}')`
+						}`,
+					),
+				'',
+			)}`,
+		)
+}
+
 export const expect = (...args: Selector[]) => ({
 	expectedStr: '',
 	setExpectedStr(expectedStr: string) {
 		this.expectedStr = expectedStr
 	},
 	setReceiveStr(property: string, comparison: Function) {
-		const queries = getSelectors(...args)
+		const queries = getQueries(...args)
 		step(
-			`Expect '${getName(queries)}' ${property} equals ${this.expectedStr}`,
+			`Expect '${getName(queries)}' ${property} = ${this.expectedStr}`,
 			() => {
+				genDebuggingQuery(queries)
 				action(async () => {
 					await page.waitForSelector(queries[0].selector, {
 						timeout: 5000,

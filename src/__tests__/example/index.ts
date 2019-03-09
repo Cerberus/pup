@@ -12,4 +12,4 @@ app
 
 expect(FIRST_SEARCH_RESULT).equal('Google')
 expect(SECOND_SEARCH_RESULT).contain('Google')
-expect(GOOGLE_SEARCH_BOX).valueEqual('google')
+expect(GOOGLE_SEARCH_BOX, 'value').equal('google')

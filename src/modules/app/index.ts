@@ -19,6 +19,19 @@ export const app = proxify({
 			await browser.close()
 		})
 	},
+	login: () => {
+		const genCookie = (name: string, value: string = '') => ({
+			name,
+			value,
+			domain: process.env.COOKIE_DOMAIN,
+		})
+		action(async () => {
+			await page.setCookie(
+				genCookie('ws', process.env.COOKIE_WS),
+				genCookie('wtoken', process.env.COOKIE_WTOKEN),
+			)
+		})
+	},
 	goto: (url: string) => {
 		action(async () => {
 			await page.goto(url)

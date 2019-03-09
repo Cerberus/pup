@@ -1,6 +1,11 @@
 ## Pup
 
-### Installation
+### Setup
+Clone & fulfill cookie configs in `.env` file.
+```
+cp .env.template .env
+```
+Install packages.
 ```
 npm ci
 ```

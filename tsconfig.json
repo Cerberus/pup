@@ -10,7 +10,7 @@
     "outDir": "dist",
     "baseUrl": "src",
     "paths": {
-      "app/*": ["app/*"],
+      "modules/*": ["modules/*"],
       "proxy": ["proxy"],
     },
     "allowSyntheticDefaultImports": true,

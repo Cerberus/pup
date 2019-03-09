@@ -38,7 +38,7 @@ class Expect {
 		)
 	}
 
-	setExpectedStr(expectedStr: string) {
+	private setExpectedStr(expectedStr: string) {
 		this.expectedStr = expectedStr
 	}
 

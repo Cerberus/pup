@@ -29,6 +29,12 @@ export const app = proxify({
 			await page.click(selector)
 		})
 	},
+	clickText: (selector: string) => {
+		action(async () => {
+			const [element] = await page.$x(selector)
+			await element.click()
+		})
+	},
 	screenshot: (options?: puppeteer.ScreenshotOptions) => {
 		action(async () => {
 			const fileName = new Date(Date.now()).toString().slice(16, 24)
@@ -38,9 +44,9 @@ export const app = proxify({
 			})
 		})
 	},
-	type: (selector: string, text: string, options?: { delay: number }) => {
+	type: (selector: string, text: string) => {
 		action(async () => {
-			await page.type(selector, text, options)
+			await page.type(selector, text)
 		})
 	},
 	enter: () => {
@@ -48,7 +54,7 @@ export const app = proxify({
 			await page.keyboard.press('Enter')
 		})
 	},
-	search: (selector: string, text: string, options?: { delay: number }) => {
-		app.type(selector, text, options).enter()
+	search: (selector: string, text: string) => {
+		app.type(selector, text).enter()
 	},
 })

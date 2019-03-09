@@ -33,13 +33,19 @@ Step 3.1. Type input[name=q] google
 Step 3.2. Enter
 * Test plan generated successfully!
 ```
+See more how to use [prescript](https://prescript.netlify.com) and enjoy : )
 
-### Debugging dom on chrome
+### Use querySelector to debug
 ```
 document.querySelector('«query»')
 ```
 
-### setup allure on mac osx
+### Use xPath to debug
+```
+document.evaluate('«xPath»', document, null, XPathResult.ANY_TYPE, null).iterateNext()
+```
+
+### Setup allure on mac osx
 ```
 brew install allure
 ```

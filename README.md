@@ -50,6 +50,20 @@ document.querySelector('«query»')
 document.evaluate('«xPath»', document, null, XPathResult.ANY_TYPE, null).iterateNext()
 ```
 
+### Test Parallelization
+
+Run all test files
+
+```
+npm run test:all
+```
+
+Run all test file with generating a report
+
+```
+npm run test:report
+```
+
 ### Setup allure on mac osx
 ```
 brew install allure

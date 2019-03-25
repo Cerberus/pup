@@ -62,7 +62,7 @@ Run all test files
 npm run test:all
 ```
 
-Run all test file with generating a report
+Run all test files with generating a report
 
 ```
 npm run test:report

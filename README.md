@@ -1,5 +1,7 @@
 ## Pup
 
+An example puppeteer project with prescript
+
 <img width="990" alt="simple" src="https://user-images.githubusercontent.com/9087409/54936625-6feb0b00-4f55-11e9-8185-dc707eeab7a3.png">
 
 ### Setup

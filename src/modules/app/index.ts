@@ -4,6 +4,17 @@ import { defer } from 'prescript'
 
 import { proxify, action, page } from 'proxy'
 
+type Cookie = [string, string | undefined]
+const genCookie = ([name, value = '']: Cookie) => ({
+	name,
+	value,
+	domain: process.env.COOKIE_DOMAIN,
+})
+const COOKIES: Cookie[] = [
+	['ws', process.env.COOKIE_WS],
+	['wtoken', process.env.COOKIE_WTOKEN],
+]
+
 export const app = proxify({
 	createPage: (options?: puppeteer.LaunchOptions) => {
 		action(async state => {
@@ -20,16 +31,8 @@ export const app = proxify({
 		})
 	},
 	login: () => {
-		const genCookie = (name: string, value: string = '') => ({
-			name,
-			value,
-			domain: process.env.COOKIE_DOMAIN,
-		})
 		action(async () => {
-			await page.setCookie(
-				genCookie('ws', process.env.COOKIE_WS),
-				genCookie('wtoken', process.env.COOKIE_WTOKEN),
-			)
+			await page.setCookie(...COOKIES.map(genCookie))
 		})
 	},
 	goto: (url: string) => {

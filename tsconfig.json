@@ -1,6 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "incremental": true,
     "lib": ["es2018", "dom"],
     "module": "commonjs",
     "target": "es2017",

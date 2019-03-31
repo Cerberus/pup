@@ -26,7 +26,7 @@
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.17.0",
     "ttypescript": "^1.5.6",
-    "typescript": "^3.2.2",
+    "typescript": "^3.4.1",
     "typescript-transform-paths": "^1.0.0"
   },
   "scripts": {
@@ -34,7 +34,7 @@
     "dev": "better-npm-run prescript -d",
     "test:all": "better-npm-run test:all",
     "test:report": "better-npm-run test:report",
-    "build:watch": "rm -rf dist; ttsc -w -sourcemap",
+    "build:watch": "ttsc -w -sourcemap",
     "tslint": "tslint -p .",
     "release": "standard-version"
   },

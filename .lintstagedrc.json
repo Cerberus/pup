@@ -1,0 +1,10 @@
+{
+	"ignore": ["src/generated/**/*.ts"],
+	"linters": {
+		"*.ts": [
+			"prettier --write",
+			"tslint -p . --fix",
+			"git add"
+		]
+	}
+}

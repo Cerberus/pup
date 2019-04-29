@@ -37,7 +37,8 @@ export const app = proxify({
 	init: (options: LaunchOptions) => {
 		const { screen, ...rest } = options
 		const defaultViewport = getDefaultSettings(screen)
-		app.createPage({ defaultViewport, ...rest })
+		const headless = process.env.NODE_ENV !== 'development'
+		app.createPage({ defaultViewport, headless, ...rest })
 		defer('Close browser', async ({ browser }) => {
 			await browser.close()
 		})

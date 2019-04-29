@@ -30,8 +30,8 @@
     "typescript-transform-paths": "^1.0.0"
   },
   "scripts": {
-    "start": "better-npm-run prescript",
-    "dev": "better-npm-run prescript -d",
+    "start": "better-npm-run start",
+    "dev": "better-npm-run dev",
     "test:all": "better-npm-run test:all",
     "test:report": "better-npm-run test:report",
     "build:watch": "ttsc -w -sourcemap",
@@ -39,10 +39,17 @@
     "release": "standard-version"
   },
   "betterScripts": {
-    "prescript": {
+    "start": {
       "command": "prescript",
       "env": {
         "NODE_PATH": "src"
+      }
+    },
+    "dev": {
+      "command": "prescript -d",
+      "env": {
+        "NODE_PATH": "src",
+        "NODE_ENV": "development"
       }
     },
     "test:all": {

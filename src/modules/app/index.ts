@@ -2,6 +2,7 @@ import * as puppeteer from 'puppeteer'
 
 import { defer } from 'prescript'
 
+import { Screen, LaunchOptions } from './types'
 import { proxify, action, page } from 'proxy'
 
 type Cookie = [string, string | undefined]
@@ -15,6 +16,15 @@ const COOKIES: Cookie[] = [
 	['wtoken', process.env.COOKIE_WTOKEN],
 ]
 
+const getDefaultSettings = (screen: Screen) => {
+	switch (screen) {
+		case 'mobile':
+			return { width: 375, height: 667 }
+		case 'desktop':
+			return { width: 1024, height: 768 }
+	}
+}
+
 export const app = proxify({
 	createPage: (options?: puppeteer.LaunchOptions) => {
 		action(async state => {
@@ -24,8 +34,10 @@ export const app = proxify({
 			state.page = page
 		})
 	},
-	init: (options?: puppeteer.LaunchOptions) => {
-		app.createPage(options)
+	init: (options: LaunchOptions) => {
+		const { screen, ...rest } = options
+		const defaultViewport = getDefaultSettings(screen)
+		app.createPage({ defaultViewport, ...rest })
 		defer('Close browser', async ({ browser }) => {
 			await browser.close()
 		})

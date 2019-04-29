@@ -86,4 +86,12 @@ export const app = proxify({
 	search: (selector: string, text: string) => {
 		app.type(selector, text).enter()
 	},
+	uploadFile: (selector: string) => {
+		action(async () => {
+			const element = await page.waitForSelector(selector, {
+				timeout: 5000,
+			})
+			await element.uploadFile('./resources/images/square.png')
+		})
+	},
 })

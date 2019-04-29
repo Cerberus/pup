@@ -7,7 +7,7 @@ const {
 	bgRed: { bold: red },
 } = chalk.default
 
-const files = glob.sync('dist/__tests__/*/*.js')
+const files = glob.sync(process.env.TEST_PATH as string)
 const limit = require('p-limit')(3)
 const PRESCRIPT = './node_modules/.bin/prescript'
 

@@ -58,9 +58,9 @@ export const app = proxify({
 			await page.click(selector)
 		})
 	},
-	clickText: (selector: string) => {
+	clickText: (xPath: string) => {
 		action(async () => {
-			const [element] = await page.$x(selector)
+			const [element] = await page.$x(xPath)
 			await element.click()
 		})
 	},

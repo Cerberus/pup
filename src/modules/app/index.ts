@@ -19,9 +19,9 @@ const COOKIES: Cookie[] = [
 const getDefaultSettings = (screen: Screen) => {
 	switch (screen) {
 		case 'mobile':
-			return { width: 375, height: 667 }
+			return { width: 375, height: 667, isMobile: true }
 		case 'desktop':
-			return { width: 1024, height: 768 }
+			return { width: 1024, height: 768, isMobile: false }
 	}
 }
 
@@ -75,6 +75,9 @@ export const app = proxify({
 	},
 	type: (selector: string, text: string) => {
 		action(async () => {
+			await page.evaluate(selector => {
+				document.querySelector(selector).value = ''
+			}, selector)
 			await page.type(selector, text)
 		})
 	},

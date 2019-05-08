@@ -13,13 +13,18 @@ export const COOKIES = [
 	domain: process.env.COOKIE_DOMAIN,
 }))
 
-const { npm_lifecycle_script } = process.env
+export const getInfo = (str: string) => {
+	return {
+		device: (str.match(/([^/]+).js/i) || [])[1],
+		name: (str.match(/([^/]+)\/([^/]+).js/i) || [])[1],
+		squad: (str.match(/([^/]+)\/([^/]+)\/([^/]+).js/i) || [])[1],
+	}
+}
+
+const { device } = getInfo(process.env.npm_lifecycle_script as string)
 
 export const getDefaultViewport = () => {
-	const screen: Screen = (npm_lifecycle_script as string).includes('mobile')
-		? 'mobile'
-		: 'desktop'
-	switch (screen) {
+	switch (device) {
 		case 'mobile':
 			return { width: 375, height: 667, isMobile: true }
 		case 'desktop':

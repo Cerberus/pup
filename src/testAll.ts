@@ -1,6 +1,7 @@
 import * as glob from 'glob'
 import * as chalk from 'chalk'
 import * as childProcess from 'child_process'
+import { getInfo } from './modules/app/utils'
 
 const {
 	bgGreen: { bold: green },
@@ -16,6 +17,9 @@ Promise.all(
 		limit(
 			() =>
 				new Promise(resolve => {
+					const { squad, device, name } = getInfo(file)
+					process.env.ALLURE_SUITE_NAME = squad
+					process.env.ALLURE_CASE_NAME = `${name}/${device}`
 					childProcess.execFile(PRESCRIPT, [file], (e, stdout) => {
 						e
 							? console.log(red(' NG '), file, '\n', stdout)

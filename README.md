@@ -19,9 +19,9 @@ Run `tsc` to automatically compile ts to js when the file is updated.
 ```
 npm run build:watch
 ```
-Open a new terminal tab and run the test file. (e.g. `src/__tests__/google/search/index.ts`)
+Open a new terminal tab and run the test file. (e.g. `src/__tests__/google/search/desktop.ts`)
 ```
-npm run dev dist/__tests__/google/search/index.js
+npm run dev dist/__tests__/google/search/desktop.js
 ```
 an example source code:
 ```ts

@@ -2,28 +2,8 @@ import * as puppeteer from 'puppeteer'
 
 import { defer } from 'prescript'
 
-import { Screen, LaunchOptions } from './types'
+import { LaunchOptions, COOKIES, getDefaultViewport } from './utils'
 import { proxify, action, page } from 'proxy'
-
-type Cookie = [string, string | undefined]
-const genCookie = ([name, value = '']: Cookie) => ({
-	name,
-	value,
-	domain: process.env.COOKIE_DOMAIN,
-})
-const COOKIES: Cookie[] = [
-	['ws', process.env.COOKIE_WS],
-	['wtoken', process.env.COOKIE_WTOKEN],
-]
-
-const getDefaultSettings = (screen: Screen) => {
-	switch (screen) {
-		case 'mobile':
-			return { width: 375, height: 667, isMobile: true }
-		case 'desktop':
-			return { width: 1024, height: 768, isMobile: false }
-	}
-}
 
 export const app = proxify({
 	createPage: (options?: puppeteer.LaunchOptions) => {
@@ -35,17 +15,16 @@ export const app = proxify({
 		})
 	},
 	init: (options: LaunchOptions) => {
-		const { screen, ...rest } = options
-		const defaultViewport = getDefaultSettings(screen)
+		const defaultViewport = getDefaultViewport()
 		const headless = process.env.NODE_ENV !== 'development'
-		app.createPage({ defaultViewport, headless, ...rest })
+		app.createPage({ defaultViewport, headless, ...options })
 		defer('Close browser', async ({ browser }) => {
 			await browser.close()
 		})
 	},
 	login: () => {
 		action(async () => {
-			await page.setCookie(...COOKIES.map(genCookie))
+			await page.setCookie(...COOKIES)
 		})
 	},
 	goto: (url: string) => {

@@ -5,7 +5,7 @@ const UPLOAD_TAB = '//*[@id="qbp"]//*[text()="อัปโหลดภาพ"]'
 const UPLOAD_INPUT = 'input#qbfile'
 
 app
-	.init({ screen: 'desktop' })
+	.init()
 	.goto('https://www.google.co.th/imghp')
 	.click(IMG_ICON)
 	.clickText(UPLOAD_TAB)

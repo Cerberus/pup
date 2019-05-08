@@ -14,7 +14,7 @@ export const app = proxify({
 			state.page = page
 		})
 	},
-	init: (options: LaunchOptions) => {
+	init: (options: LaunchOptions = {}) => {
 		const defaultViewport = getDefaultViewport()
 		const headless = process.env.NODE_ENV !== 'development'
 		app.createPage({ defaultViewport, headless, ...options })

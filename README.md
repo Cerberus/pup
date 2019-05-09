@@ -46,12 +46,12 @@ See more how to use [prescript](https://prescript.netlify.com) and enjoy : )
 
 ### Use querySelector to debug
 ```
-document.querySelector("")
+document.querySelector('')
 ```
 
 ### Use xPath to debug
 ```
-document.evaluate("", document, null, XPathResult.ANY_TYPE, null).iterateNext()
+document.evaluate('', document, null, XPathResult.ANY_TYPE, null).iterateNext()
 ```
 
 ### Test Parallelization

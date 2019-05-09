@@ -3,7 +3,7 @@ import { expect } from 'modules/assert'
 
 const GOOGLE_SEARCH_BOX = 'input[name=q]'
 const FIRST_SEARCH_RESULT = '#rso > *:nth-child(1) h3'
-const GOOGLE_LINK = "//*[@id='rso']//*[text()='Google']"
+const GOOGLE_LINK = '//*[@id="rso"]//*[text()="Google"]'
 
 app
 	.init()

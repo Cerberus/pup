@@ -39,7 +39,9 @@ export const app = proxify({
 	},
 	clickText: (xPath: string) => {
 		action(async () => {
-			const [element] = await page.$x(xPath)
+			const element = await page.waitForXPath(xPath, {
+				timeout: 5000,
+			})
 			await element.click()
 		})
 	},

@@ -16,7 +16,12 @@ const dev = process.env.NODE_ENV === 'development'
 export const app = proxify({
 	createPage: (options?: puppeteer.LaunchOptions) => {
 		action(async state => {
-			const browser = await puppeteer.launch(options)
+			const browser = await puppeteer.launch({
+				...options,
+				args: process.env.CI
+					? ['--no-sandbox', '--disable-setuid-sandbox']
+					: undefined,
+			})
 			state.browser = browser
 			const page = await browser.newPage()
 			state.page = page

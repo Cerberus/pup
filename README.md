@@ -54,6 +54,11 @@ document.querySelector('')
 document.evaluate('', document, null, XPathResult.ANY_TYPE, null).iterateNext()
 ```
 
+### Use querySelectorAll to expect
+```
+document.querySelectorAll('')
+```
+
 ### Test Parallelization
 
 Run all test files

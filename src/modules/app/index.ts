@@ -11,20 +11,7 @@ import {
 } from './utils'
 import { proxify, action, page } from 'proxy'
 
-export let reqTotal = 0
-export let resTotal = 0
-
-const onRequestStarted = (req: any) => {
-	reqTotal += 1
-	console.log('reqTotal', reqTotal)
-	req.continue()
-}
-
-const onRequestFinished = (res: any) => {
-	resTotal += 1
-	console.log('resTotal', resTotal, reqTotal - resTotal)
-	res.continue()
-}
+const dev = process.env.NODE_ENV === 'development'
 
 export const app = proxify({
 	createPage: (options?: puppeteer.LaunchOptions) => {
@@ -37,7 +24,7 @@ export const app = proxify({
 	},
 	init: (options: LaunchOptions = {}) => {
 		const defaultViewport = getDefaultViewport()
-		const headless = process.env.NODE_ENV !== 'development'
+		const headless = !dev
 		app.createPage({ defaultViewport, headless, ...options })
 		defer('Close browser', async ({ browser }) => {
 			await browser.close()
@@ -107,7 +94,9 @@ export const app = proxify({
 	},
 	waitForNetworkIdle: () => {
 		action(async () => {
-			await waitForNetworkIdle(800, 500)
+			const FIRST_TIME = dev ? 800 : 10000
+			const INTERVAL_TIME = dev ? 500 : 5000
+			await waitForNetworkIdle(FIRST_TIME, INTERVAL_TIME)
 		})
 	},
 })

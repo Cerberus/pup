@@ -1,6 +1,7 @@
 import { action, page } from 'proxy'
 import { equal } from 'assert'
 import { step } from 'prescript'
+import { TIMEOUT } from 'modules/app/utils'
 
 type Comparison = {
 	cb: (received: any, expected: any) => void
@@ -26,9 +27,7 @@ class Expect {
 			}`,
 			() => {
 				action(async () => {
-					const element = await page.waitForSelector(this.selector, {
-						timeout: 5000,
-					})
+					const element = await page.waitForSelector(this.selector, TIMEOUT)
 					const receivedStr = await element
 						.getProperty(this.property)
 						.then(obj => obj.jsonValue())
@@ -53,6 +52,12 @@ class Expect {
 			cb: (receivedStr: string, expectedStr: string) =>
 				receivedStr.indexOf(expectedStr) !== -1,
 			operation: 'contains',
+		})
+	}
+	exist() {
+		this.setStep({
+			cb: () => {},
+			operation: 'exist',
 		})
 	}
 }

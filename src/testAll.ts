@@ -9,7 +9,7 @@ const {
 } = chalk.default
 
 const files = glob.sync(process.env.TEST_PATH as string)
-const limit = require('p-limit')(3)
+const limit = require('p-limit')(process.env.PARALLEL_NUMBER)
 const PRESCRIPT = './node_modules/.bin/prescript'
 
 Promise.all(

@@ -2,8 +2,29 @@ import * as puppeteer from 'puppeteer'
 
 import { defer } from 'prescript'
 
-import { LaunchOptions, COOKIES, getDefaultViewport } from './utils'
+import {
+	LaunchOptions,
+	COOKIES,
+	getDefaultViewport,
+	TIMEOUT,
+	waitForNetworkIdle,
+} from './utils'
 import { proxify, action, page } from 'proxy'
+
+export let reqTotal = 0
+export let resTotal = 0
+
+const onRequestStarted = (req: any) => {
+	reqTotal += 1
+	console.log('reqTotal', reqTotal)
+	req.continue()
+}
+
+const onRequestFinished = (res: any) => {
+	resTotal += 1
+	console.log('resTotal', resTotal, reqTotal - resTotal)
+	res.continue()
+}
 
 export const app = proxify({
 	createPage: (options?: puppeteer.LaunchOptions) => {
@@ -29,7 +50,7 @@ export const app = proxify({
 	},
 	goto: (url: string) => {
 		action(async () => {
-			await page.goto(url)
+			await page.goto(url, { timeout: 10000 })
 		})
 	},
 	click: (selector: string) => {
@@ -39,9 +60,7 @@ export const app = proxify({
 	},
 	clickText: (xPath: string) => {
 		action(async () => {
-			const element = await page.waitForXPath(xPath, {
-				timeout: 5000,
-			})
+			const element = await page.waitForXPath(xPath, TIMEOUT)
 			await element.click()
 		})
 	},
@@ -72,10 +91,23 @@ export const app = proxify({
 	},
 	uploadFile: (selector: string) => {
 		action(async () => {
-			const element = await page.waitForSelector(selector, {
-				timeout: 5000,
-			})
+			const element = await page.waitForSelector(selector, TIMEOUT)
 			await element.uploadFile('./resources/images/square.png')
+		})
+	},
+	waitFor: (selector: string) => {
+		action(async () => {
+			await page.waitFor(selector, TIMEOUT)
+		})
+	},
+	waitForText: (xPath: string) => {
+		action(async () => {
+			await page.waitForXPath(xPath, TIMEOUT)
+		})
+	},
+	waitForNetworkIdle: () => {
+		action(async () => {
+			await waitForNetworkIdle(800, 500)
 		})
 	},
 })

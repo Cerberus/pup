@@ -16,14 +16,24 @@ const dev = process.env.NODE_ENV === 'development'
 export const app = proxify({
 	createPage: (options?: puppeteer.LaunchOptions) => {
 		action(async state => {
-			const browser = await puppeteer.launch({
-				...options,
-				args: process.env.CI
-					? ['--no-sandbox', '--disable-setuid-sandbox']
-					: undefined,
-			})
-			state.browser = browser
-			const page = await browser.newPage()
+			let browser = state.browser
+			if (!browser) {
+				browser = await puppeteer.launch({
+					...options,
+					args: [
+						'--incognito',
+						...(process.env.CI
+							? ['--no-sandbox', '--disable-setuid-sandbox']
+							: []),
+					],
+				})
+				const [emptyPage] = await browser.pages()
+				emptyPage && emptyPage.close()
+				state.browser = browser
+			}
+			const context = await browser.createIncognitoBrowserContext()
+			state.context = context
+			const page = await context.newPage()
 			state.page = page
 		})
 	},
@@ -31,8 +41,8 @@ export const app = proxify({
 		const defaultViewport = getDefaultViewport()
 		const headless = !dev
 		app.createPage({ defaultViewport, headless, ...options })
-		defer('Close browser', async ({ browser }) => {
-			await browser.close()
+		defer('Close browser', async ({ context }) => {
+			await context.close()
 		})
 	},
 	login: () => {

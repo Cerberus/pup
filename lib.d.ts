@@ -5,6 +5,7 @@ declare global {
 		interface GlobalState {
 			browser: puppeteer.Browser
 			page: puppeteer.Page
+			context: puppeteer.BrowserContext
 		}
 	}
 	type ArgumentTypes<T> = T extends (...args: infer U) => infer R ? U : never

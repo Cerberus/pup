@@ -14,7 +14,7 @@ import { proxify, action, page } from 'proxy'
 const dev = process.env.NODE_ENV === 'development'
 
 export const app = proxify({
-	createPage: (options?: puppeteer.LaunchOptions) => {
+	createPage: (options: puppeteer.LaunchOptions) => {
 		action(async state => {
 			let browser = state.browser
 			if (!browser) {
@@ -34,6 +34,9 @@ export const app = proxify({
 			const context = await browser.createIncognitoBrowserContext()
 			state.context = context
 			const page = await context.newPage()
+			options.defaultViewport!.isMobile &&
+				// @ts-ignore
+				page.emulate(puppeteer.devices['iPhone 6'])
 			state.page = page
 		})
 	},

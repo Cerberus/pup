@@ -9,7 +9,7 @@ import {
 	TIMEOUT,
 	waitForNetworkIdle,
 } from './utils'
-import { proxify, action, page } from 'proxy'
+import { proxify, action, page, browser } from 'proxy'
 
 const dev = process.env.NODE_ENV === 'development'
 
@@ -46,7 +46,7 @@ export const app = proxify({
 		const headless = !dev
 		app.createPage({ defaultViewport, headless, ...options })
 		defer('Close browser', async ({ context }) => {
-			await context.close()
+			dev ? await context.close() : await browser.close()
 		})
 	},
 	login: () => {

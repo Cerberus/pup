@@ -9,7 +9,7 @@ type Comparison = {
 }
 
 type Style = 'querySelector' | 'xPath'
-type Properties = 'innerHTML' | 'value'
+type Properties = 'innerHTML' | 'value' | 'href'
 
 class Expect {
 	private style: 'querySelector' | 'xPath'

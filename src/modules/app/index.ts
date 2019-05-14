@@ -36,7 +36,7 @@ export const app = proxify({
 			const page = await context.newPage()
 			options.defaultViewport!.isMobile &&
 				// @ts-ignore
-				page.emulate(puppeteer.devices['iPhone 6'])
+				(await page.emulate(puppeteer.devices['iPhone 6']))
 			state.page = page
 		})
 	},

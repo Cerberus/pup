@@ -5,7 +5,7 @@
   "main": "none",
   "dependencies": {
     "p-limit": "^2.1.0",
-    "puppeteer": "^1.15.0"
+    "puppeteer": "^1.16.0"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",

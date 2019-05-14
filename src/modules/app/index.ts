@@ -60,7 +60,8 @@ export const app = proxify({
 	},
 	click: (selector: string) => {
 		action(async () => {
-			await page.click(selector)
+			const element = await page.waitForSelector(selector, TIMEOUT)
+			await element.click()
 		})
 	},
 	clickText: (xPath: string) => {

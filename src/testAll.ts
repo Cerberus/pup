@@ -9,7 +9,7 @@ const {
 } = chalk.default
 
 const files = glob.sync(process.env.TEST_PATH as string)
-const limit = require('p-limit')(process.env.PARALLEL_NUMBER)
+const limit = require('p-limit')(+(process.env.PARALLEL_NUMBER as string))
 const PRESCRIPT = './node_modules/.bin/prescript'
 
 Promise.all(
@@ -18,6 +18,7 @@ Promise.all(
 			() =>
 				new Promise(resolve => {
 					const { squad, device, name } = getInfo(file)
+					process.env.npm_lifecycle_script = file
 					process.env.ALLURE_SUITE_NAME = squad
 					process.env.ALLURE_CASE_NAME = `${name}/${device}`
 					childProcess.execFile(PRESCRIPT, [file], (e, stdout) => {

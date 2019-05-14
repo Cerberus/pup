@@ -73,14 +73,19 @@ Run all test files with generating a report
 npm run test:report
 ```
 
-### Setup allure on mac osx
+`allure-results` will be created.
+
+### Generating report (html)
+
+After run `npm run test:report`. To preview allure report by coding
 ```
-brew install allure
+npm run preview:report
 ```
 
-### Generating report
+Build an `allure-report` for uploading.
+
 ```
-allure serve allure-results
+npm run gen:report
 ```
 
 ### References

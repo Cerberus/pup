@@ -26,9 +26,10 @@ export const getInfo = (str: string) => {
 	}
 }
 
-const { device } = getInfo(process.env.npm_lifecycle_script as string)
-
 export const getDefaultViewport = () => {
+	console.log('process.env', process.env)
+	const { device } = getInfo(process.env.npm_lifecycle_script as string)
+	console.log('device', device)
 	switch (device) {
 		case 'mobile':
 			return { width: 375, height: 667, isMobile: true }

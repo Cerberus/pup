@@ -22,6 +22,7 @@ export const app = proxify({
 					...options,
 					args: [
 						'--incognito',
+						'--disable-notifications',
 						...(process.env.CI
 							? ['--no-sandbox', '--disable-setuid-sandbox']
 							: []),

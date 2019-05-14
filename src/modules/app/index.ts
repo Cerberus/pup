@@ -119,4 +119,10 @@ export const app = proxify({
 			await waitForNetworkIdle(FIRST_TIME, INTERVAL_TIME)
 		})
 	},
+	press: (selector: string) => {
+		action(async () => {
+			const element = await page.waitForSelector(selector, TIMEOUT)
+			await element.press(selector)
+		})
+	},
 })

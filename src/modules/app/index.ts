@@ -55,7 +55,7 @@ export const app = proxify({
 	},
 	goto: (url: string) => {
 		action(async () => {
-			await page.goto(url, { timeout: 10000 })
+			await page.goto(url, { timeout: 20000 })
 		})
 	},
 	click: (selector: string) => {

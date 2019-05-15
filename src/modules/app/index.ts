@@ -114,8 +114,8 @@ export const app = proxify({
 	},
 	waitForNetworkIdle: () => {
 		action(async () => {
-			const FIRST_TIME = dev ? 800 : 10000
-			const INTERVAL_TIME = dev ? 500 : 5000
+			const FIRST_TIME = dev ? 800 : 2000
+			const INTERVAL_TIME = dev ? 500 : 1000
 			await waitForNetworkIdle(FIRST_TIME, INTERVAL_TIME)
 		})
 	},

@@ -82,13 +82,8 @@ export const app = proxify({
 			await page.type(selector, text)
 		})
 	},
-	enter: () => {
-		action(async () => {
-			await page.keyboard.press('Enter')
-		})
-	},
 	search: (selector: string, text: string) => {
-		app.type(selector, text).enter()
+		app.type(selector, text).press('Enter')
 	},
 	uploadFile: (selector: string) => {
 		action(async () => {
@@ -108,10 +103,9 @@ export const app = proxify({
 			await waitForNetworkIdle(FIRST_TIME, INTERVAL_TIME)
 		})
 	},
-	press: (selector: string) => {
+	press: (key: string) => {
 		action(async () => {
-			const element = await waitFor(selector)
-			await element.press(selector)
+			await page.keyboard.press(key)
 		})
 	},
 })

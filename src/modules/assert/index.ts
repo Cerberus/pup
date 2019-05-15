@@ -8,7 +8,6 @@ type Comparison = {
 	operation: string
 }
 
-type Style = 'querySelector' | 'xPath'
 type Properties = 'innerHTML' | 'value' | 'href' | 'src' | 'title'
 
 class Expect {

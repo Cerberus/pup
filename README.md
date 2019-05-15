@@ -79,7 +79,7 @@ npm run test:report
 
 After run `npm run test:report`. To preview allure report by coding
 ```
-npm run preview:report
+npm run serve:report
 ```
 
 Build an `allure-report` for uploading.

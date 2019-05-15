@@ -36,7 +36,7 @@
     "test:all": "better-npm-run test:all",
     "test:report": "better-npm-run test:report",
     "gen:report": "allure generate",
-    "preview:report": "allure serve",
+    "serve:report": "allure serve",
     "build": "ttsc -sourcemap",
     "build:watch": "ttsc -w -sourcemap",
     "tslint": "tslint -p .",

@@ -35,6 +35,7 @@ export const getDefaultViewport = () => {
 			return { width: 1024, height: 768, isMobile: false }
 	}
 }
+
 export const waitForNetworkIdle = (
 	initialTimeout: number,
 	timeout: number,
@@ -70,3 +71,8 @@ export const waitForNetworkIdle = (
 	let timeoutId = setTimeout(onTimeoutDone, initialTimeout)
 	return promise
 }
+
+export const waitFor = async (selector: string) =>
+	selector.startsWith('//')
+		? page.waitForXPath(selector, TIMEOUT)
+		: page.waitForSelector(selector, TIMEOUT)

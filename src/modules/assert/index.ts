@@ -1,7 +1,7 @@
 import { action, page } from 'proxy'
 import { equal, fail } from 'assert'
 import { step } from 'prescript'
-import { TIMEOUT } from 'modules/app/utils'
+import { TIMEOUT, waitFor } from 'modules/app/utils'
 
 type Comparison = {
 	cb: (received: any, expected: any) => void
@@ -12,13 +12,11 @@ type Style = 'querySelector' | 'xPath'
 type Properties = 'innerHTML' | 'value' | 'href' | 'src' | 'title'
 
 class Expect {
-	private style: 'querySelector' | 'xPath'
 	private selector: string
 	private property: Properties
 	private expectedStr: string = ''
 
-	constructor(style: Style, selector: string, property: Properties) {
-		this.style = style
+	constructor(selector: string, property: Properties) {
 		this.selector = selector
 		this.property = property
 	}
@@ -30,10 +28,7 @@ class Expect {
 			}`,
 			() => {
 				action(async () => {
-					const element =
-						this.style === 'querySelector'
-							? await page.waitForSelector(this.selector, TIMEOUT)
-							: await page.waitForXPath(this.selector, TIMEOUT)
+					const element = await waitFor(this.selector)
 					const receivedStr = await element
 						.getProperty(this.property)
 						.then(obj => obj.jsonValue())
@@ -76,12 +71,7 @@ class Expect {
 }
 
 export const expect = (selector: string, property: Properties = 'innerHTML') =>
-	new Expect('querySelector', selector, property)
-
-export const expectText = (
-	selector: string,
-	property: Properties = 'innerHTML',
-) => new Expect('xPath', selector, property)
+	new Expect(selector, property)
 
 class ExpectAll {
 	private selector: string

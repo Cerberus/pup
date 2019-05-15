@@ -6,8 +6,8 @@ import {
 	LaunchOptions,
 	COOKIES,
 	getDefaultViewport,
-	TIMEOUT,
 	waitForNetworkIdle,
+	waitFor,
 } from './utils'
 import { proxify, action, page, browser } from 'proxy'
 
@@ -61,13 +61,7 @@ export const app = proxify({
 	},
 	click: (selector: string) => {
 		action(async () => {
-			const element = await page.waitForSelector(selector, TIMEOUT)
-			await element.click()
-		})
-	},
-	clickText: (xPath: string) => {
-		action(async () => {
-			const element = await page.waitForXPath(xPath, TIMEOUT)
+			const element = await waitFor(selector)
 			await element.click()
 		})
 	},
@@ -98,18 +92,13 @@ export const app = proxify({
 	},
 	uploadFile: (selector: string) => {
 		action(async () => {
-			const element = await page.waitForSelector(selector, TIMEOUT)
+			const element = await waitFor(selector)
 			await element.uploadFile('./resources/images/square.png')
 		})
 	},
 	waitFor: (selector: string) => {
 		action(async () => {
-			await page.waitFor(selector, TIMEOUT)
-		})
-	},
-	waitForText: (xPath: string) => {
-		action(async () => {
-			await page.waitForXPath(xPath, TIMEOUT)
+			await waitFor(selector)
 		})
 	},
 	waitForNetworkIdle: () => {
@@ -121,7 +110,7 @@ export const app = proxify({
 	},
 	press: (selector: string) => {
 		action(async () => {
-			const element = await page.waitForSelector(selector, TIMEOUT)
+			const element = await waitFor(selector)
 			await element.press(selector)
 		})
 	},

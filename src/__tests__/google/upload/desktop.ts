@@ -8,5 +8,5 @@ app
 	.init()
 	.goto('https://www.google.co.th/imghp')
 	.click(IMG_ICON)
-	.clickText(UPLOAD_TAB)
+	.click(UPLOAD_TAB)
 	.uploadFile(UPLOAD_INPUT)

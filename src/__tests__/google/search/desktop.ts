@@ -12,6 +12,6 @@ app
 
 expect(FIRST_SEARCH_RESULT).equal('Google')
 
-app.clickText(GOOGLE_LINK)
+app.click(GOOGLE_LINK)
 
 expect(GOOGLE_SEARCH_BOX, 'value').equal('')

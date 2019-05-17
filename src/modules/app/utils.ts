@@ -40,6 +40,8 @@ export const waitForNetworkIdle = (
 	timeout: number,
 	maxInflightRequests = 0,
 ) => {
+	const getInflight = () => reqCount - resCount
+
 	const onTimeoutDone = () => {
 		page.removeListener('request', onRequestStarted)
 		page.removeListener('requestfinished', onRequestFinished)
@@ -48,16 +50,14 @@ export const waitForNetworkIdle = (
 	}
 
 	const onRequestStarted = () => {
-		inflight += 1
-		console.log('increase', inflight)
-		if (inflight > maxInflightRequests) clearTimeout(timeoutId)
+		reqCount += 1
+		if (getInflight() > maxInflightRequests) clearTimeout(timeoutId)
 	}
 
 	const onRequestFinished = () => {
-		if (inflight === 0) return
-		inflight -= 1
-		console.log('reduce', inflight)
-		if (inflight === maxInflightRequests) {
+		if (getInflight() === 0) return
+		resCount += 1
+		if (getInflight() === maxInflightRequests) {
 			timeoutId = setTimeout(onTimeoutDone, timeout)
 		}
 	}
@@ -66,7 +66,8 @@ export const waitForNetworkIdle = (
 	page.on('requestfinished', onRequestFinished)
 	page.on('requestfailed', onRequestFinished)
 
-	let inflight = 0
+	let reqCount = 0
+	let resCount = 0
 	let fulfill: Function
 	const promise = new Promise(x => (fulfill = x))
 	let timeoutId = setTimeout(onTimeoutDone, timeout)

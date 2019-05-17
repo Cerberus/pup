@@ -56,7 +56,7 @@ export const app = proxify({
 	},
 	goto: (url: string) => {
 		action(async () => {
-			await page.goto(url, { timeout: 20000 })
+			await page.goto(url)
 		})
 	},
 	click: (selector: string) => {
@@ -76,10 +76,9 @@ export const app = proxify({
 	},
 	type: (selector: string, text: string) => {
 		action(async () => {
-			await page.evaluate(selector => {
-				document.querySelector(selector).value = ''
-			}, selector)
-			await page.type(selector, text)
+			const element = await waitFor(selector)
+			await element.click({ clickCount: 3 })
+			await element.type(text)
 		})
 	},
 	search: (selector: string, text: string) => {
@@ -97,10 +96,8 @@ export const app = proxify({
 		})
 	},
 	waitForNetworkIdle: () => {
-		action(async () => {
-			const FIRST_TIME = dev ? 800 : 2000
-			const INTERVAL_TIME = dev ? 500 : 1000
-			await waitForNetworkIdle(FIRST_TIME, INTERVAL_TIME)
+		action(async state => {
+			await state.netPromise
 		})
 	},
 	press: (key: string) => {

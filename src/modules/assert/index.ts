@@ -1,4 +1,4 @@
-import { action, page } from 'proxy'
+import { action, page, pushIdle } from 'proxy'
 import { equal, fail } from 'assert'
 import { step } from 'prescript'
 import { TIMEOUT, waitFor } from 'modules/app/utils'
@@ -21,6 +21,7 @@ class Expect {
 	}
 
 	private setStep({ cb, operation }: Comparison) {
+		pushIdle(false)
 		step(
 			`Expect '${this.selector}' ${this.property} ${operation} ${
 				this.expectedStr
@@ -81,6 +82,7 @@ class ExpectAll {
 	}
 
 	private setStep({ cb, operation }: Comparison) {
+		pushIdle(false)
 		step(
 			`Expect '${this.selector}' ${operation} ${this.expectedNumber}`,
 			() => {

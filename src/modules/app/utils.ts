@@ -6,7 +6,7 @@ export type Screen = 'mobile' | 'desktop'
 export interface LaunchOptions extends puppeteer.LaunchOptions {}
 
 export const TIMEOUT = {
-	timeout: process.env.NODE_ENV === 'development' ? 5000 : 10000,
+	timeout: process.env.NODE_ENV === 'development' ? 5000 : 15000,
 }
 
 export const COOKIES = [
@@ -37,7 +37,6 @@ export const getDefaultViewport = () => {
 }
 
 export const waitForNetworkIdle = (
-	initialTimeout: number,
 	timeout: number,
 	maxInflightRequests = 0,
 ) => {
@@ -50,12 +49,14 @@ export const waitForNetworkIdle = (
 
 	const onRequestStarted = () => {
 		inflight += 1
+		console.log('increase', inflight)
 		if (inflight > maxInflightRequests) clearTimeout(timeoutId)
 	}
 
 	const onRequestFinished = () => {
 		if (inflight === 0) return
 		inflight -= 1
+		console.log('reduce', inflight)
 		if (inflight === maxInflightRequests) {
 			timeoutId = setTimeout(onTimeoutDone, timeout)
 		}
@@ -68,7 +69,7 @@ export const waitForNetworkIdle = (
 	let inflight = 0
 	let fulfill: Function
 	const promise = new Promise(x => (fulfill = x))
-	let timeoutId = setTimeout(onTimeoutDone, initialTimeout)
+	let timeoutId = setTimeout(onTimeoutDone, timeout)
 	return promise
 }
 

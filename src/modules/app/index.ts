@@ -54,6 +54,11 @@ export const app = proxify({
 			await page.setCookie(...COOKIES)
 		})
 	},
+	setGeolocation: (geo: puppeteer.GeoOptions) => {
+		action(async () => {
+			await page.setGeolocation(geo)
+		})
+	},
 	goto: (url: string) => {
 		action(async () => {
 			await page.goto(url)
@@ -80,9 +85,6 @@ export const app = proxify({
 			await element.click({ clickCount: 3 })
 			await element.type(text)
 		})
-	},
-	search: (selector: string, text: string) => {
-		app.type(selector, text).press('Enter')
 	},
 	uploadFile: (selector: string) => {
 		action(async () => {
